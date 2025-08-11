@@ -1,0 +1,13 @@
+<div class="p-4">
+  <h1 class="text-xl font-semibold mb-2">Employees</h1>
+
+  <button class="px-3 py-2 border rounded mb-3" (click)="load()">Load</button>
+
+    <ul class="list-disc pl-5" *ngIf="employees">
+      <li *ngFor="let e of employees">
+          #{{ e.id }} — {{ e.firstname }} {{ e.lastname }} ({{ e.jobTitle }})
+      </li>
+    </ul>
+
+    <p *ngIf="error" class="text-red-600 mt-2">{{ error }}</p>
+    </div>
