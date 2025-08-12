@@ -1,0 +1,38 @@
+<div class="min-h-screen flex items-center justify-center bg-gray-50">
+      
+      <div class="w-full max-w-sm bg-white p-6 rounded-xl shadow">
+        
+        <div class="flex justify-center mb-2">
+          <img src="assets/brand/cho1.png" alt="Cafe Logo" class="h-12 w-auto">
+        </div>
+
+        <h1 class="text-xl font-semibold mb-4 text-center">Employee Management</h1>
+
+        <form class="space-y-4" [formGroup]="form" (ngSubmit)="onSubmit()">
+          <div>
+            <label class="block text-sm mb-1">Username</label>
+            <input class="w-full border rounded px-3 py-2"
+                   type="text" formControlName="username" />
+            <p class="text-xs text-red-600 mt-1" *ngIf="formControls.username.touched && formControls.username.invalid">
+              Username is required
+            </p>
+          </div>
+
+          <div>
+            <label class="block text-sm mb-1">Password</label>
+            <input class="w-full border rounded px-3 py-2"
+                   type="password" formControlName="password" />
+            <p class="text-xs text-red-600 mt-1" *ngIf="formControls.password.touched && formControls.password.invalid">
+              Password is required
+            </p>
+          </div>
+
+          <button class="w-full py-2 rounded bg-black text-white disabled:opacity-50"
+                  type="submit" [disabled]="form.invalid || loading">
+            {{ loading ? 'Signing in...' : 'Sign in' }}
+          </button>
+
+          <p class="text-center text-sm text-red-600" *ngIf="error">{{ error }}</p>
+        </form>
+      </div>
+    </div>
