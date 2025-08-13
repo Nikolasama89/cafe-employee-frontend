@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators} from '@angular/forms'
 import { AuthService } from 'src/app/core/services/auth.service';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -12,9 +13,10 @@ import { CommonModule } from '@angular/common';
 export class LoginComponent {
   private fb = inject(FormBuilder)
   private auth = inject(AuthService)
+  private router = inject(Router)
 
   loading = false;
-  error = "";
+  error: string | null = null;
 
   form = this.fb.group({
     username: ["", Validators.required],
@@ -27,19 +29,24 @@ export class LoginComponent {
 
   onSubmit() {
     if (this.form.invalid) return;
+
     this.loading = true;
-    this.error = ""
+    this.error = null;
 
     this.auth.login(this.form.value as any).subscribe({
       next: (res) => {
-        this.auth.saveToken(res.token)
-        this.loading = false
+        this.auth.setSessionAndUser(res)
+        this.router.navigate(['/employees'])
         // TODO: redirect ανά ρόλο – θα το κάνουμε όταν βάλουμε guard/router logic
         // π.χ. this.router.navigate(['/employees']);
       },
-      error: () => {
+      error: (err) => {
+        console.error(err)
+        this.error = "Invalid username or password"
         this.loading = false
-        this.error = "Invalid credentials"
+      },
+      complete: () => {
+        this.loading = false
       }
     })
   }
