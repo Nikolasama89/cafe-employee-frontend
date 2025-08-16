@@ -18,15 +18,22 @@ export class AuthService {
 
   constructor() {
     const token = localStorage.getItem("access_token")
-    if (token) {
-      const p = jwtDecode<{username:string; role?: Role}>(token)
-      this.user$.set({username:p.username, role: (p.role ?? "EMPLOYEE") as Role})
+    if (token && !this.isTokenExpired) {
+      this.user$.set(this.extractUserFromToken(token))
     }
 
     effect(() => {
       const u = this.user$();
-      console.log(u ? `User logged in: ${u.username}`: "No user")
+      console.log(u ? `User logged in: ${u.username} with role ${u.role}`: "No user")
     })
+  }
+
+  private extractUserFromToken(token: string): LoggedInUser {
+    const p: any = jwtDecode(token)
+    return {
+      username: p.sub,
+      role: (p.role ?? "EMPLOYEE") as Role
+    }
   }
 
   login(credentials: AuthenticationRequestDTO) {
@@ -35,8 +42,7 @@ export class AuthService {
 
   setSessionAndUser(auth: AuthenticationResponseDTO) {
     localStorage.setItem("access_token", auth.token)
-    const p = jwtDecode<{username: string; role?: Role}>(auth.token)
-    this.user$.set({username: p.username, role: (p.role ?? "EMPLOYEE") as Role})
+    this.user$.set(this.extractUserFromToken(auth.token))
   }
 
   logout() {
