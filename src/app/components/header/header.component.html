@@ -1,0 +1,37 @@
+<header class="w-full shadow-sm border-b bg-yellow-400">
+  <div class="max-w-2xl mx-auto px-4 py-3 flex items-center justify-between lg:max-w-full">
+    <a [routerLink]="user() ? 'employees' : '/login'"  class="flex items-center gap-2">
+      <img src="assets/brand/cho1.png" alt="Logo" class="h-8 w-8" />
+      <span class="text-lg font-semibold">Chorefto Camp EMS</span>
+    </a>
+
+    <nav class="flex items-center gap-4">
+      <!-- Αν δεν έχει login -->
+      <ng-template [ngIf]="!user()">
+        <a routerLink="/login" class="text-sm hover:underline border rounded">Login</a>
+      </ng-template>
+
+      <!-- Αν έχει login -->
+      <ng-template [ngIf]="user()">
+        <a routerLink="/employees"
+           routerLinkActive="font-semibold underline"
+           class="text-sm hover:underline">Employees</a>
+
+        <!-- TODO: USERS PAGE -->
+        <a *ngIf="isAdmin()"
+           routerLink="/users"
+           routerLinkActive="font-semibold underline"
+           class="text-sm hover:underline">Users</a>
+
+        <span class="text-sm text-black">
+          Hello, {{ user()?.username }} ({{ user()?.role }})
+        </span>
+
+        <button (click)="logout()"
+                class="text-sm bg-gray-100 hover:bg-gray-200 px-3 py-1 border rounded">
+          Logout
+        </button>
+      </ng-template>
+    </nav>
+  </div>
+</header>
