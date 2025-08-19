@@ -1,4 +1,7 @@
-import { Role } from "./enums";
+export enum Role {
+  ADMIN = "ADMIN",
+  EMPLOYEE = "EMPLOYEE"
+}
 
 export interface UserReadOnlyDTO {
   id: number;
