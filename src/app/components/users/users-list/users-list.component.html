@@ -1,0 +1,33 @@
+<div class="w-full">
+    <div *ngIf="!users || users.length === 0" class="p-6 text-center text-gray-500">
+      Δεν υπάρχουν χρήστες.
+    </div>
+
+    <div *ngIf="users && users.length > 0" class="overflow-x-auto">
+      <table class="min-w-full text-left">
+        <thead class="border-b">
+          <tr class="text-sm text-gray-600">
+            <th class="py-3 px-4">ID</th>
+            <th class="py-3 px-4">Username</th>
+            <th class="py-3 px-4">Role</th>
+            <th class="py-3 px-4"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let u of users" class="border-b hover:bg-gray-50">
+            <td class="py-2 px-4">{{ u.id }}</td>
+            <td class="py-2 px-4">{{ u.username }}</td>
+            <td class="py-2 px-4">{{ u.role }}</td>
+            <td class="py-2 px-4 text-right">
+              <button
+                class="text-red-600 hover:underline"
+                (click)="onDelete(u.id!)">
+                Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
