@@ -1,5 +1,6 @@
 import { Component, effect, inject, signal } from '@angular/core';
 import { NgIf } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { UserService } from 'src/app/core/services/user.service';
 import { UsersListComponent } from '../users-list/users-list.component';
 import { UserReadOnlyDTO } from 'src/app/shared/interfaces/user';
@@ -7,7 +8,7 @@ import { UserReadOnlyDTO } from 'src/app/shared/interfaces/user';
 
 @Component({
   selector: 'app-users',
-  imports: [NgIf, UsersListComponent],
+  imports: [NgIf, UsersListComponent, RouterLink],
   templateUrl: './users.component.html',
   styleUrl: './users.component.css'
 })
