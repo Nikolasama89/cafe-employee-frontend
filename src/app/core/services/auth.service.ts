@@ -18,7 +18,7 @@ export class AuthService {
 
   constructor() {
     const token = localStorage.getItem("access_token")
-    if (token && !this.isTokenExpired) {
+    if (token && !this.isTokenExpired()) {
       this.user$.set(this.extractUserFromToken(token))
     }
 
