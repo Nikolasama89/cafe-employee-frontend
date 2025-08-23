@@ -2,10 +2,11 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EmployeeService } from 'src/app/core/services/employee.service';
 import { EmployeeReadOnlyDTO } from 'src/app/shared/interfaces/employee';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-employees',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './employees.component.html',
   styleUrl: './employees.component.css'
 })
