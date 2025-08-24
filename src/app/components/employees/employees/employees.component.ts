@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { EmployeeService } from 'src/app/core/services/employee.service';
 import { EmployeeReadOnlyDTO } from 'src/app/shared/interfaces/employee';
 import { RouterLink } from '@angular/router';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
   selector: 'app-employees',
@@ -14,6 +15,9 @@ export class EmployeesComponent {
   private employeeService = inject(EmployeeService);
   employees: EmployeeReadOnlyDTO[] | null = null;
   error = "";
+  auth = inject(AuthService)
+  
+  
 
   ngOnInit() {
     this.load()
