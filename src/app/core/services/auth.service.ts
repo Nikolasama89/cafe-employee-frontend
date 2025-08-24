@@ -69,4 +69,8 @@ export class AuthService {
   getToken(): string | null {
     return localStorage.getItem("access_token")
   }
+
+  isAdmin(): boolean {
+    return this.user$()?.role === "ADMIN"
+  }
 }
