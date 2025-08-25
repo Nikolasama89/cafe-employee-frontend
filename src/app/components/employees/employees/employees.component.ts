@@ -19,9 +19,7 @@ export class EmployeesComponent {
   error = "";
   auth = inject(AuthService)
   fontAwesomeEditButton = faPenToSquare
-  fontAwesomeDeleteButton = faTrash
-  
-  
+  fontAwesomeDeleteButton = faTrash  
 
   ngOnInit() {
     this.load()
@@ -39,8 +37,22 @@ export class EmployeesComponent {
 
   }
 
-  onDelete(e:any) {
-    
+  onDelete(e: EmployeeReadOnlyDTO) {
+    if (!e?.id) return
+
+    const ok = confirm(`Delete ${e.firstname} ${e.lastname}? This action cannot be undone.`)
+    if (!ok) return
+
+    this.error = ""
+
+    this.employeeService.delete(e.id).subscribe({
+      next: () => {
+        this.load()
+      },
+      error: (err) => {
+        this.error = err?.error?.message ?? "Delete Failed. Please try again!"
+      }
+    })
   }
 
   
