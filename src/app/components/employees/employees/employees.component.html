@@ -24,6 +24,7 @@
             <th class="px-4 py-3">Name</th>
             <th class="px-4 py-3">Job Title</th>
             <th class="px-4 py-3">Region</th>
+            <th *ngIf="auth.isAdmin()" class="px-4 py-3 text-right w-24 pr-5">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -31,6 +32,30 @@
             <td class="px-4 py-3">{{ e.firstname }} {{ e.lastname }}</td>
             <td class="px-4 py-3">{{ e.jobTitle }}</td>
             <td class="px-4 py-3">{{ e.region }}</td>
+
+            <td *ngIf="auth.isAdmin()" class="px-4 py-3">
+              <div class="flex justify-end gap-2">
+                <!-- Edit -->
+                <button
+                  type="button"
+                  class="p-2 rounded-full hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300"
+                  title="Edit"
+                  aria-label="Edit employee"
+                  (click)="onEdit(e)">
+                  <fa-icon [icon]="fontAwesomeEditButton" class="text-[20px]"></fa-icon>
+                </button>
+
+                <!-- Delete -->
+                <button
+                  type="button"
+                  class="p-2 rounded-full hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300"
+                  title="Delete"
+                  aria-label="Delete employee"
+                  (click)="onDelete(e)">
+                  <fa-icon [icon]="fontAwesomeDeleteButton" class="text-[20px]"></fa-icon>
+                </button>
+              </div>
+            </td>
           </tr>
         </tbody>
       </table>

@@ -4,10 +4,12 @@ import { EmployeeService } from 'src/app/core/services/employee.service';
 import { EmployeeReadOnlyDTO } from 'src/app/shared/interfaces/employee';
 import { RouterLink } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faPenToSquare, faTrash} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-employees',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, FontAwesomeModule],
   templateUrl: './employees.component.html',
   styleUrl: './employees.component.css'
 })
@@ -16,6 +18,8 @@ export class EmployeesComponent {
   employees: EmployeeReadOnlyDTO[] | null = null;
   error = "";
   auth = inject(AuthService)
+  fontAwesomeEditButton = faPenToSquare
+  fontAwesomeDeleteButton = faTrash
   
   
 
@@ -30,4 +34,14 @@ export class EmployeesComponent {
       error: (err) => (this.error = err?.error?.message ?? "Request failed")
     });
   }
+
+  onEdit(e:any){
+
+  }
+
+  onDelete(e:any) {
+    
+  }
+
+  
 }
