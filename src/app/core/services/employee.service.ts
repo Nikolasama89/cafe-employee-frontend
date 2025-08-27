@@ -27,7 +27,7 @@ export class EmployeeService {
     return this.http.post<EmployeeReadOnlyDTO>(this.baseUrl, dto);
   }
 
-  update(id: number, dto: EmployeeUpdateDTO): Observable<EmployeeReadOnlyDTO> {
+  update(id: number, dto: Omit<EmployeeUpdateDTO, "id" | "userId">): Observable<EmployeeReadOnlyDTO> {
     return this.http.put<EmployeeReadOnlyDTO>(`${this.baseUrl}/${id}`, dto);
   }
 
