@@ -1,0 +1,75 @@
+<div class="p-6 max-w-2xl">
+  <h1 class="text-2xl font-semibold mb-4">Edit Employee</h1>
+
+  <p class="text-sm text-gray-500 mb-4">
+    Employee ID: <span class="font-mono">{{ id }}</span>
+    · Linked user: <span class="font-mono">{{ linkedUserId }}</span>
+  </p>
+
+  <p *ngIf="error" class="text-red-600 mb-4">{{ error }}</p>
+  <p *ngIf="loading" class="text-gray-600">Loading...</p>
+
+  <form *ngIf="!loading" [formGroup]="form" (ngSubmit)="submit()" class="space-y-4">
+    <div>
+      <label class="block text-sm font-medium mb-1">First name</label>
+      <input class="w-full rounded-lg border px-3 py-2" type="text" formControlName="firstname"/>
+      <small class="text-red-600" *ngIf="hasError('firstname','required')">Required</small>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium mb-1">Last name</label>
+      <input class="w-full rounded-lg border px-3 py-2" type="text" formControlName="lastname"/>
+      <small class="text-red-600" *ngIf="hasError('lastname','required')">Required</small>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium mb-1">VAT</label>
+      <input class="w-full rounded-lg border px-3 py-2" type="text" formControlName="vat"/>
+      <small class="text-red-600" *ngIf="hasError('vat','required')">Required</small>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium mb-1">Phone</label>
+      <input class="w-full rounded-lg border px-3 py-2" type="text" formControlName="phone"/>
+      <small class="text-red-600" *ngIf="hasError('phone','required')">Required</small>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium mb-1">Region</label>
+
+      <div *ngIf="regionsLoading()" class="text-sm text-gray-500 mb-1">Loading regions…</div>
+      <div *ngIf="regionsError()" class="text-sm text-red-600 mb-2">
+        {{ regionsError() }}
+        <button type="button" class="ml-2 text-sm underline" (click)="loadRegions()">Retry</button>
+      </div>
+
+      <select class="w-full rounded-lg border px-3 py-2" formControlName="regionId" [disabled]="regionsLoading()">
+        <option [ngValue]="0" disabled>-- Select region --</option>
+        <option *ngFor="let r of regions()" [ngValue]="r.id">{{ r.name }}</option>
+      </select>
+      <small class="text-red-600" *ngIf="hasError('regionId','required')">Required</small>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium mb-1">Email</label>
+      <input class="w-full rounded-lg border px-3 py-2" type="email" formControlName="email"/>
+      <small class="text-red-600" *ngIf="hasError('email','email')">Invalid email</small>
+      <small class="text-red-600" *ngIf="hasError('email','required')">Required</small>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium mb-1">Job Title</label>
+      <select class="w-full rounded-lg border px-3 py-2" formControlName="jobTitle">
+        <option *ngFor="let opt of JOB_TITLE_OPTIONS" [ngValue]="opt.value">{{ opt.label }}</option>
+      </select>
+      <small class="text-red-600" *ngIf="hasError('jobTitle','required')">Required</small>
+    </div>
+
+    <div class="flex gap-3 pt-2">
+      <button type="submit" class="rounded-xl bg-black text-white px-4 py-2 disabled:opacity-50" [disabled]="saving">
+        Save changes
+      </button>
+      <button type="button" class="rounded-xl border px-4 py-2" (click)="cancel()">Cancel</button>
+    </div>
+  </form>
+</div>
