@@ -4,6 +4,9 @@ import { environment } from 'src/environments/environment.development';
 import { Observable } from 'rxjs';
 import { EmployeeReadOnlyDTO, EmployeeInsertDTO, EmployeeUpdateDTO } from 'src/app/shared/interfaces/employee';
 
+// ΚΑΝΟΥΜΕ UPDATE TO PAYLOAD ΧΩΡΙΣ ID ΚΑΙ userId
+type EmployeeUpdatePayload = Omit<EmployeeUpdateDTO, 'id' | 'userId'>;
+
 @Injectable({
   providedIn: 'root'
 })
