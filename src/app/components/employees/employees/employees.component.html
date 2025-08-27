@@ -39,9 +39,9 @@
                 <button
                   type="button"
                   class="p-2 rounded-full hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300"
+                  [routerLink]="['/employees', e.id, 'edit']"
                   title="Edit"
-                  aria-label="Edit employee"
-                  (click)="onEdit(e)">
+                  aria-label="Edit employee">
                   <fa-icon [icon]="fontAwesomeEditButton" class="text-[20px]"></fa-icon>
                 </button>
 
