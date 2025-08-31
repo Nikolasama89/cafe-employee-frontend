@@ -1,5 +1,4 @@
 <form class="space-y-6 max-w-3xl mx-auto" [formGroup]="form" (ngSubmit)="submit()">
-  <!-- Heading -->
   <div class="flex items-center justify-between">
     <h2 class="text-xl font-semibold">Create Employee</h2>
     <a routerLink="/employees" class="text-sm underline">Back to Employees</a>
@@ -18,7 +17,6 @@
   </div>
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-    <!-- Firstname -->
     <div>
       <label class="block text-sm font-medium mb-1" for="firstname">First name</label>
       <input
@@ -26,7 +24,6 @@
         type="text"
         formControlName="firstname"
         class="w-full rounded-xl border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        placeholder="e.g. Maria"
       />
       <p *ngIf="f.firstname.touched && f.firstname.invalid" class="mt-1 text-sm text-red-600">
         Το μικρό όνομα είναι υποχρεωτικό (>= 2 χαρακτήρες).
@@ -41,14 +38,12 @@
         type="text"
         formControlName="lastname"
         class="w-full rounded-xl border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        placeholder="e.g. Papadopoulou"
       />
       <p *ngIf="f.lastname.touched && f.lastname.invalid" class="mt-1 text-sm text-red-600">
         Το επώνυμο είναι υποχρεωτικό (>= 2 χαρακτήρες).
       </p>
     </div>
 
-    <!-- VAT -->
     <div>
       <label class="block text-sm font-medium mb-1" for="vat">VAT (ΑΦΜ)</label>
       <input
@@ -63,7 +58,6 @@
       </p>
     </div>
 
-    <!-- Phone -->
     <div>
       <label class="block text-sm font-medium mb-1" for="phone">Phone</label>
       <input
@@ -71,18 +65,16 @@
         type="tel"
         formControlName="phone"
         class="w-full rounded-xl border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        placeholder="+30 69..."
       />
       <p *ngIf="f.phone.touched && f.phone.invalid" class="mt-1 text-sm text-red-600">
         Δώσε έγκυρο τηλέφωνο.
       </p>
     </div>
 
-    <!-- Region -->
     <div>
   <label class="block text-sm font-medium mb-1" for="regionId">Region</label>
 
-  <!-- error κατά το fetch -->
+  <!-- error στο fetch των regions -->
   <div *ngIf="regionsError()" class="mb-2 p-2 rounded bg-red-50 text-red-700">
     {{ regionsError() }}
     <button type="button" class="ml-2 underline" (click)="loadRegions()">Try again</button>
@@ -109,7 +101,6 @@
   </p>
 </div>
 
-    <!-- Email -->
     <div>
       <label class="block text-sm font-medium mb-1" for="email">Email</label>
       <input
@@ -117,14 +108,12 @@
         type="email"
         formControlName="email"
         class="w-full rounded-xl border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        placeholder="name@example.com"
       />
       <p *ngIf="f.email.touched && f.email.invalid" class="mt-1 text-sm text-red-600">
         Δώσε έγκυρο email.
       </p>
     </div>
 
-    <!-- User -->
     <div>
   <label class="block text-sm font-medium mb-1" for="userId">User ID</label>
   <input
@@ -132,7 +121,6 @@
     type="number"
     formControlName="userId"
     class="w-full rounded-xl border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-    placeholder="π.χ. 5"
   />
   <p *ngIf="f.userId.touched && f.userId.hasError('required')" class="mt-1 text-sm text-red-600">
     Το User ID είναι υποχρεωτικό.
@@ -145,7 +133,6 @@
   </p>
 </div>
 
-    <!-- Job Title -->
     <div>
       <label class="block text-sm font-medium mb-1" for="jobTitle">Job Title</label>
       <select
