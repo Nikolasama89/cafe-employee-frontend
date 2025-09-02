@@ -1,59 +1,126 @@
-# CafeEmployeeFrontend
+# Cafe Employee – Frontend (Angular)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.8.
+Angular frontend για το σύστημα διαχείρισης εργαζομένων (Employee Management). Συνδέεται με το Spring Boot backend και χρησιμοποιεί JWT για authentication.
 
-## Development server
+## 🔧 Τεχνολογίες
 
-To start a local development server, run:
+* **Angular 19** (`@angular/* 19.2.x`)
+* **TypeScript \~5.7**
+* **RxJS \~7.8**
+* **Zone.js \~0.15**
+* **Tailwind CSS 4** (με `@tailwindcss/postcss`)
+* **Font Awesome** (`@fortawesome/angular-fontawesome` + icon packs)
+* **jwt-decode** (για client-side parsing του JWT)
+
+## 📦 Απαιτήσεις
+
+* **Node.js** 20 LTS ή νεότερο (προτείνεται)
+* **Angular CLI** (τοπικά ή από `npx`)
+
+## 🚀 Γρήγορη Εκκίνηση
 
 ```bash
+# εγκατάσταση εξαρτήσεων
+npm install
+
+# dev server στο http://localhost:4200
+npm start
+# ή
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## 🧰 Scripts (package.json)
 
-## Code scaffolding
+* `start`: `ng serve` (dev server με live reload)
+* `build`: `ng build` (παραγωγή build στον φάκελο `dist/`)
+* `watch`: `ng build --watch --configuration development`
+* `test`: `ng test` (Jasmine/Karma)
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## 🔗 Σύνδεση με Backend
 
-```bash
-ng generate component component-name
+Ορίστε το **API base URL** στα περιβάλλοντα του Angular.
+
+**`src/environments/environment.ts` (dev):**
+
+```ts
+export const environment = {
+  production: false,
+  apiBaseUrl: 'http://localhost:8080/api' // προσαρμόστε αν χρειάζεται
+};
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+**`src/environments/environment.prod.ts` (prod):**
 
-```bash
-ng generate --help
+```ts
+export const environment = {
+  production: true,
+  apiBaseUrl: 'https://your-domain.com/api'
+};
 ```
 
-## Building
+> Το backend έχει ρυθμισμένο CORS. Αν παρ' όλα αυτά θέλεις τοπικά να χρησιμοποιήσεις **proxy** για αποφυγή CORS ή διαφορετικό port:
+>
+> **`proxy.conf.json`**
+>
+> ```json
+> {
+>   "/api": {
+>     "target": "http://localhost:8080",
+>     "secure": false,
+>     "changeOrigin": true
+>   }
+> }
+> ```
+>
+> Έπειτα: `ng serve --proxy-config proxy.conf.json`
 
-To build the project run:
+## 🔐 Authentication (JWT)
 
-```bash
-ng build
+* Μετά το login στο backend λαμβάνεις JWT.
+* Αποθηκεύεις προσωρινά το token (π.χ. `localStorage`).
+* Στα outbound requests πρόσθεσε header `Authorization: Bearer <token>`.
+
+
+## 🎨 Tailwind CSS 4
+
+* Βεβαιώσου ότι έχεις εισάγει το Tailwind CSS στο **global stylesheet** (π.χ. `src/styles.css`):
+
+```css
+@import "tailwindcss";
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+* Αν χρησιμοποιείς PostCSS, επιβεβαίωσε ότι φορτώνεται το plugin `@tailwindcss/postcss`.
 
-## Running unit tests
+## 🎯 Λειτουργικότητες (στόχος)
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+* **MVP**: login, βασική πλοήγηση/λίστες employees, προβολή στοιχείων.
+* **Επόμενα**: διαχείριση/ανάθεση **tasks** σε employees, status updates, ρόλοι/πρόσβαση (Admin/Employee).
 
-```bash
-ng test
-```
 
-## Running end-to-end tests
+## 🧰 Font Awesome
 
-For end-to-end (e2e) testing, run:
+  * `@fortawesome/angular-fontawesome` (wrapper)
+  * `@fortawesome/free-brands-svg-icons` 
+  * `@fortawesome/free-solid-svg-icons` 
 
-```bash
-ng e2e
-```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## 🐞 Troubleshooting
 
-## Additional Resources
+* **401/403**: έλεγξε ότι στέλνεις σωστά `Authorization: Bearer <token>`.
+* **CORS**: το backend είναι ρυθμισμένο. Με proxy config ή σωστό `apiBaseUrl` αποφεύγεις σφάλματα.
+* **Node/CLI**: βεβαιώσου ότι χρησιμοποιείς Node 20+ και ενημερωμένο Angular CLI.
+* **Tailwind**: αν δεν εφαρμόζονται τα styles, επιβεβαίωσε το import `@import "tailwindcss";` στο `styles.css`.
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## 🔗 Σχετικά
+
+* Backend README: δες το αντίστοιχο repository (Spring Boot + MySQL + JWT + Swagger).
+**https://github.com/Nikolasama89/backend-employees-tasks-management**
+
+---
+
+### Σύντομες οδηγίες
+
+1. `npm install`
+2. Ρύθμισε `environment.ts` → `apiBaseUrl`.
+3. `npm start` για dev, `npm run build` για production build.
+4. (Προαιρετικό) Proxy config για τοπικό dev.
