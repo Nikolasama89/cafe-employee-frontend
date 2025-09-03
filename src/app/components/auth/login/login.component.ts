@@ -23,18 +23,23 @@ export class LoginComponent {
     password: ["", Validators.required]
   })
 
+  // getter για χρηση στο template
   get formControls() {
     return this.form.controls
   }
 
   onSubmit() {
+    // guard αν η φορμα δεν ειναι εγκυρη δεν προχωραει
     if (this.form.invalid) return;
 
     this.loading = true;
     this.error = null;
 
+    // κληση στο auth service mμε τα στοιχεια της φορμας
+    // θα γινει emit το observable την απαντηση του backend
     this.auth.login(this.form.value as any).subscribe({
       next: (res) => {
+        // αποθηκευση session και user και navigate στους employees
         this.auth.setSessionAndUser(res)
         this.router.navigate(['/employees'])
         // TODO: redirect ανά ρόλο – θα το κάνουμε όταν βάλουμε guard/router logic

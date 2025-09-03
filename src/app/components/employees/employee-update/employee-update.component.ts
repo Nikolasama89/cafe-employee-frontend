@@ -10,7 +10,9 @@ import { Region } from 'src/app/shared/interfaces/region';
 import { EmployeeReadOnlyDTO, EmployeeUpdateDTO } from 'src/app/shared/interfaces/employee';
 import { JobTitle } from 'src/app/shared/interfaces/enums';
 
+// Το σχημα για το dropdown των regions
 type Option = { id: number; name: string };
+// Στελνουμε στο update μονο τα πεδια που επιτρεπουμε να αλλαξουν. id και userId δεν θελουμε να τα αλλαξουμε
 type EmployeeUpdatePayload = Omit<EmployeeUpdateDTO, 'id' | 'userId'>;
 
 @Component({
@@ -20,6 +22,7 @@ type EmployeeUpdatePayload = Omit<EmployeeUpdateDTO, 'id' | 'userId'>;
   styleUrl: './employee-update.component.css'
 })
 export class EmployeeUpdateComponent {
+  // Injects για να μην εχουμε constructor boilerplate
   private fb = inject(NonNullableFormBuilder);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
@@ -35,7 +38,7 @@ export class EmployeeUpdateComponent {
   saving = false;
   error = '';
 
-  // Job titles
+  // Job titles για το select
   JOB_TITLE_OPTIONS = [
     { label: 'Barista', value: JobTitle.BARISTA },
     { label: 'Barman',  value: JobTitle.BARMAN },
@@ -49,6 +52,7 @@ export class EmployeeUpdateComponent {
   regionsLoading = signal(false);
   regionsError = signal<string | null>(null);
 
+  // REACTIVE FORM
   form = this.fb.group({
     firstname: this.fb.control<string>('', { validators: [Validators.required, Validators.maxLength(50)] }),
     lastname:  this.fb.control<string>('', { validators: [Validators.required, Validators.maxLength(50)] }),
@@ -59,22 +63,29 @@ export class EmployeeUpdateComponent {
     jobTitle:  this.fb.control<JobTitle>(JobTitle.BARISTA, {validators: [Validators.required], }),
   });
 
+  // ΤΡΕΧΕΙ ΜΙΑ ΦΟΡΑ ΜΕ ΑΦΟΥ ΤΟ COMPONENT ΔΗΜΙΟΥΡΓΗΘΕΙ
   ngOnInit() {
-    // 1) φορτώνουμε regions (δεν χρειάζεται να περιμένουμε)
+    // 1) φορτώνουμε regions
     this.loadRegions();
 
     // 2) διαβάζουμε τύπου-safe το :id και φορτώνουμε τον employee
     this.loading = true;
     this.route.paramMap.pipe(
+      // παιρνουμε το id
       map(pm => pm.get('id')),
+      // φιλτραρουμε nulls
       filter((id): id is string => id !== null),
+      // μετατρεπουμε σε number
       map(idStr => Number(idStr)),
+      // μικρο validation id πριν καλεσουμε το api
       tap(n => {
         if (!Number.isInteger(n) || n <= 0) throw new Error('Invalid employee id.');
         this.id = n;
       }),
+      // κληση στο service για να παρουμε στοιχεια του employee
       switchMap(validId =>
         this.employeeService.getById(validId).pipe(
+          // γεμιζουμε το form με τα δεδομενα του employee
           tap((emp: EmployeeReadOnlyDTO) => {
             this.linkedUserId = emp.userId; // read-only
             this.form.patchValue({
@@ -94,11 +105,13 @@ export class EmployeeUpdateComponent {
         )
       )
     ).subscribe({
+      // μολις τελειωσει η αλυσιδα κλεινει το loading
       next: () => (this.loading = false),
       error: (e) => { this.error = e?.message ?? 'Invalid employee id.'; this.loading = false; }
     });
   }
 
+  // φορτωση region με sort 
   loadRegions() {
     this.regionsLoading.set(true);
     this.regionsError.set(null);
@@ -111,6 +124,7 @@ export class EmployeeUpdateComponent {
             .sort((a, b) => a.name.localeCompare(b.name))
             .map(r => ({ id: r.id, name: r.name }) as Option)
         ),
+        // κλεινει το loading οτι και να γινει
         finalize(() => this.regionsLoading.set(false))
       )
       .subscribe({
@@ -121,7 +135,7 @@ export class EmployeeUpdateComponent {
         }
       });
   }
-
+  // Υποβολη φορμας
   submit() {
     if (this.form.invalid) { this.form.markAllAsTouched(); return; }
 
@@ -148,6 +162,7 @@ export class EmployeeUpdateComponent {
     this.router.navigate(['/employees']);
   }
 
+  // helper για validation του template
   hasError(name: keyof typeof this.form.controls, type: string) {
     const c = this.form.controls[name];
     return c.touched && c.hasError(type);
