@@ -12,6 +12,13 @@ Angular frontend για το σύστημα διαχείρισης εργαζο�
 * **Font Awesome** (`@fortawesome/angular-fontawesome` + icon packs)
 * **jwt-decode** (για client-side parsing του JWT)
 
+## 📸 Screenshots
+![LoginPage](docs/screenshots/login_page.png)
+![AdminPanel](docs/screenshots/admin-panel.png)
+![CreateEmployeeForm](docs/screenshots/create-employee-form.png)
+![EmployeesPage](docs/screenshots/employeespage.png)
+![EmployeeDetails](docs/screenshots/employee-details.png)
+
 ## 📦 Απαιτήσεις
 
 * **Node.js** 20 LTS ή νεότερο (προτείνεται)
@@ -40,7 +47,7 @@ ng serve
 
 Ορίστε το **API base URL** στα περιβάλλοντα του Angular.
 
-**`src/environments/environment.ts` (dev):**
+**`src/environments/environment.development.ts` (dev):**
 
 ```ts
 export const environment = {
@@ -49,7 +56,7 @@ export const environment = {
 };
 ```
 
-**`src/environments/environment.prod.ts` (prod):**
+**`src/environments/environment.ts` (prod):**
 
 ```ts
 export const environment = {
